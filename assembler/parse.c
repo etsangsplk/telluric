@@ -8,17 +8,17 @@
 asm_file load_file(char* filepath) {
   int upper = 128;
   asm_file o;
-  o.lines = malloc(sizeof(line) * upper);
+  o.lines = calloc(upper, sizeof(*o.lines));
   o.lines_count = 0;
 
   FILE* f = fopen(filepath, "r");
 
   ssize_t len;
-  char* str = malloc(8);
+  char* str = calloc(8, sizeof(*str));
   size_t len_ = 8;
 
   while ((len = getline(&str, &len_, f)) != -1) {
-    o.lines[o.lines_count].str = malloc(len);
+    o.lines[o.lines_count].str = calloc(len, sizeof(char));
     memcpy(o.lines[o.lines_count].str, str, len);
     o.lines[o.lines_count].len = len;
 
@@ -39,7 +39,7 @@ asm_file load_file(char* filepath) {
 asm_file strip_nonsemantic(asm_file in) {
   asm_file o;
   o.lines_count = 0;
-  o.lines = malloc(sizeof(line) * in.lines_count);
+  o.lines = calloc(in.lines_count, sizeof(*o.lines));
 
   for (int i = 0; i < in.lines_count; i++) {
 
@@ -103,7 +103,7 @@ asm_section valid_section(char* name, int len) {
 sectioned_file parse_sections(asm_file in) {
   int c = 0;
   sectioned_file o;
-  o.sections = malloc(sizeof(asm_section) * 128);
+  o.sections = calloc(128, sizeof(*o.sections));
   o.sections_count = 0;
 
   while (c < in.lines_count-1) {
@@ -125,7 +125,7 @@ sectioned_file parse_sections(asm_file in) {
     c++; // skip header
 
     s.lines_count = e - c;
-    s.lines = malloc(sizeof(line) * s.lines_count);
+    s.lines = calloc(s.lines_count, sizeof(*s.lines));
     memcpy(s.lines, &in.lines[c], sizeof(line) * s.lines_count);
 
     o.sections[o.sections_count] = s;

@@ -23,8 +23,8 @@ byte set_flags(meta_section m) {
 void set_storage(byte* count, offset_index** indices, storage_section** section,
                  data_domains dd, data_object* dats, int dats_len) {
   *count = dats_len;
-  *indices = malloc(sizeof(offset_index) * *count);
-  *section = malloc(sizeof(program_section) * *count);
+  *indices = calloc(*count, sizeof(**indices));
+  *section = calloc(*count, sizeof(**section));
 
   int offset = 0;
 
@@ -46,8 +46,8 @@ byte hdr2b(header h) {
 void set_code(byte* indices_len, offset_index** indices, program_section** section,
               object* objs, int objs_len) {
   *indices_len = objs_len;
-  *indices = malloc(sizeof(offset_index) * *indices_len);
-  *section = malloc(sizeof(program_section) * *indices_len);
+  *indices = calloc(*indices_len, sizeof(**indices));
+  *section = calloc(*indices_len, sizeof(**section));
 
   int offset = 0;
 
@@ -93,12 +93,12 @@ byte* collapse_file(program_file p, int* len) {
   printf("flattening file\n");
 
   int header_len = sizeof(uint64_t) + 1;
-  byte* header = malloc(header_len);
+  byte* header = calloc(header_len, sizeof(*header));
   memcpy(header, &p.magic, sizeof(uint64_t));
   header[sizeof(uint64_t)] = p.flags;
 
   int storage_header_len = 1 + (sizeof(offset_index) * p.storage_count);
-  byte* storage_header = malloc(storage_header_len);
+  byte* storage_header = calloc(storage_header_len, sizeof(*storage_header));
 
   storage_header[0] = p.storage_count;
   int b = 1;
@@ -121,7 +121,7 @@ byte* collapse_file(program_file p, int* len) {
   }
 
   int code_header_len = 1 + (sizeof(offset_index) * p.code_indices_len);
-  byte* code_header = malloc(code_header_len);
+  byte* code_header = calloc(code_header_len, sizeof(*code_header));
 
   code_header[0] = p.storage_count;
   b = 1;
@@ -143,7 +143,7 @@ byte* collapse_file(program_file p, int* len) {
   }
 
   byte* out =
-    malloc(header_len + storage_header_len + storage_blob_len + code_header_len + code_blob_len);
+    calloc(header_len + storage_header_len + storage_blob_len + code_header_len + code_blob_len, sizeof(*out));
 
   *len = header_len;
   memcpy(out, header, *len);

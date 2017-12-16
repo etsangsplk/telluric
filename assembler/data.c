@@ -23,16 +23,16 @@ byte set_data_flags(data_def d) {
 size_t compile_lit(literal l, byte** o) {
   switch(l.type) {
   case integral:
-    *o = malloc(sizeof(int64_t));
+    *o = calloc(1, sizeof(int64_t));
     **o = l.i;
     return sizeof(int64_t);
   case fractional:
-    *o = malloc(sizeof(double));
+    *o = calloc(1, sizeof(double));
     **o = l.f;
     return sizeof(double);
   case vector:
   case matrix:
-    *o = malloc(sizeof(double) * l.m.length);
+    *o = calloc(l.m.length, sizeof(double));
     memcpy(*o, l.m.values, l.m.length);
     free(l.m.values);
     return sizeof(double) * l.m.length;

@@ -7,8 +7,8 @@
 data_domains append_domains(data_idents d) {
   data_domains o;
   o.count = 5;
-  o.domains = malloc(sizeof(char*) * o.count);
-  o.idents = malloc(sizeof(data_idents) * o.count);
+  o.domains = calloc(o.count, sizeof(*o.domains));
+  o.idents = calloc(o.count, sizeof(*o.idents));
 
   o.domains[0] = "local";
   o.idents[0] = d;
@@ -36,8 +36,8 @@ data_domains identify_data(data_section d) {
 
   data_idents o;
   o.count = 0;
-  o.ids = malloc(sizeof(int) * d.defs_count);
-  o.labels = malloc(sizeof(char*) * d.defs_count);
+  o.ids = calloc(d.defs_count, sizeof(*o.ids));
+  o.labels = calloc(d.defs_count, sizeof(*o.labels));
 
   for (int i = 0; i < d.defs_count; i++) {
     for (int j = 0; j < o.count; j++) {

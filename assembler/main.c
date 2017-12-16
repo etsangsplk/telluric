@@ -31,13 +31,13 @@ int main(int argc, char* argv[]) {
 
   data_domains d = identify_data(r.data);
 
-  object* objs = malloc(sizeof(object) * r.code_count);
+  object* objs = calloc(r.code_count, sizeof(*objs));
 
   for (int i = 0; i < r.code_count; i++) {
     objs[i] = compile_code(r.code[i], d);
   }
 
-  data_object* dats = malloc(sizeof(data_object) * r.data.defs_count);
+  data_object* dats = calloc(r.data.defs_count, sizeof(*dats));
 
   for (int i = 0; i < r.data.defs_count; i++) {
     dats[i] =

@@ -46,7 +46,7 @@ literal parse_vector(char* c, int* pos, int len) {
   literal l, f;
   l.type = vector;
   l.m.length = 0;
-  l.m.values = malloc(sizeof(double) * 4);
+  l.m.values = calloc(4, sizeof(double));
 
   while (n < len && c[n] != ']') {
     f = parse_simple(c, &n, len);
@@ -73,7 +73,7 @@ literal parse_composite(char* c, int* pos, int len) {
 
   if (c[n] == '[') {
     o.type = matrix;
-    o.m.values = malloc(sizeof(double) * 16);
+    o.m.values = calloc(16, sizeof(double));
     o.m.length = 0;
     literal v;
 

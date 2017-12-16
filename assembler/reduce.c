@@ -5,8 +5,8 @@
 
 meta_section reduce_meta(asm_section s) {
   meta_section o;
-  o.keys = malloc(sizeof(char*) * s.lines_count);
-  o.vals = malloc(sizeof(char*) * s.lines_count);
+  o.keys = calloc(s.lines_count, sizeof(*o.keys));
+  o.vals = calloc(s.lines_count, sizeof(*o.keys));
   o.count = 0;
 
   for (int i = 0; i < s.lines_count; i++) {
@@ -39,7 +39,7 @@ meta_section reduce_meta(asm_section s) {
 
 data_section reduce_data(asm_section s) {
   data_section o;
-  o.defs = malloc(sizeof(data_def) * s.lines_count);
+  o.defs = calloc(s.lines_count, sizeof(*o.defs));
   o.defs_count = 0;
 
   int c = 0;
@@ -60,11 +60,11 @@ data_section reduce_data(asm_section s) {
     // name
     int n = s.lines[c].len - 1;
 
-    d.name = malloc(sizeof(char) * n + 1);
+    d.name = calloc(n + 1, sizeof(*d.name));
     memcpy(d.name, &s.lines[c].str[1], sizeof(char) * n);
 
     // tags
-    d.tags = malloc(sizeof(char*) * t);
+    d.tags = calloc(t, sizeof(*d.tags));
     d.tags_count = 0;
 
     while (t > c) {
@@ -78,14 +78,14 @@ data_section reduce_data(asm_section s) {
         continue;
       }
 
-      d.tags[d.tags_count] = malloc(sizeof(char) * s.lines[t].len - 1);
+      d.tags[d.tags_count] = calloc(s.lines[t].len - 1, sizeof(char));
       memcpy(d.tags[d.tags_count], &s.lines[t].str[1], n - 1);
 
       d.tags_count++;
       t--;
     }
 
-    d.content = malloc(sizeof(line) * (d.content_count));
+    d.content = calloc((d.content_count), sizeof(*d.content));
     memcpy(d.content, &s.lines[e - d.content_count], sizeof(line) * d.content_count);
 
     o.defs[o.defs_count] = d;
@@ -119,7 +119,7 @@ code_section reduce_code(asm_section s) {
 
 reduced_file reduce_file(sectioned_file s) {
   reduced_file o;
-  o.code = malloc(sizeof(code_section) * s.sections_count);
+  o.code = calloc(s.sections_count, sizeof(*o.code));
   o.code_count = 0;
   for (int i = 0; i < s.sections_count; i++) {
     if (strcmp(s.sections[i].name, "meta") == 0) {

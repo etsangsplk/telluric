@@ -63,7 +63,7 @@ bool parse_reg(instr_operand* o, char* c, int len) {
 
   if (len == 2) {
     o->value_len = 1;
-    o->value = malloc(1);
+    o->value = calloc(o->value_len, sizeof(*o->value));
     o->value[0] = reg_num;
     return true;
   }
@@ -78,7 +78,7 @@ bool parse_reg(instr_operand* o, char* c, int len) {
         vec_idx = c[4] - 48;
 
         o->value_len = 2;
-        o->value = malloc(2);
+        o->value = calloc(o->value_len, sizeof(*o->value));
         o->value[0] = reg_num;
         o->value[1] = vec_idx;
 
@@ -102,20 +102,20 @@ bool parse_lit(instr_operand* o, char* c, int len) {
     case fractional:
       o->type = imm_float;
       o->value_len = 8;
-      o->value = malloc(8);
+      o->value = calloc(o->value_len, sizeof(*o->value));
       break;
     case vector:
       o->type = imm_vector;
       o->value_len = 8*4;
-      o->value = malloc(8*4);
-      memcpy(o->value, l.m.values, 8*4);
+      o->value = calloc(o->value_len, sizeof(*o->value));
+      memcpy(o->value, l.m.values, o->value_len);
       free(l.m.values);
       break;
     case matrix:
       o->type = imm_matrix;
       o->value_len = 8*16;
-      o->value = malloc(8*16);
-      memcpy(o->value, l.m.values, 8*16);
+      o->value = calloc(o->value_len, sizeof(*o->value));
+      memcpy(o->value, l.m.values, o->value_len);
       free(l.m.values);
       break;
     }
@@ -141,7 +141,7 @@ bool parse_label(data_domains d, instr_operand* o, char* c, int len) {
 
   if (n == len) {
     o->value_len = 1;
-    o->value = malloc(1);
+    o->value = calloc(o->value_len, sizeof(*o->value));
     o->value[0] = id;
     return true;
   } else {
@@ -156,7 +156,7 @@ bool parse_label(data_domains d, instr_operand* o, char* c, int len) {
     if (idx > 63) return false;
 
     o->value_len = 2;
-    o->value = malloc(2);
+    o->value = calloc(o->value_len, sizeof(*o->value));
     o->value[0] = id;
     o->value[1] = idx;
     return true;
@@ -223,7 +223,7 @@ instr parse_instr(data_domains d, line l) {
 
   n += first_char(&l.str[n], l.len-n);
 
-  o.operands = malloc(sizeof(instr_operand) * 8);
+  o.operands = calloc(8, sizeof(*o.operands));
   while (n < l.len) {
     printf("n: %d - %c\n", n, l.str[n]);
     o.operands[o.operand_count] = parse_operand(d, l.str, &n, l.len);
