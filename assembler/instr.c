@@ -204,6 +204,7 @@ instr parse_instr(data_domains d, line l) {
   int e = first_space(&l.str[n], l.len-n);
 
   // todo: check for return operand
+  o.has_return = false;
 
   byte opcode = parse_opcode(&l.str[n], e);
   printf("opcode: %d\n", opcode);
