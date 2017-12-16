@@ -205,11 +205,12 @@ instr parse_instr(data_domains d, line l) {
 
   // todo: check for return operand
   o.has_return = false;
+  o.operand_count = 0;
+  o.opcode = parse_opcode(&l.str[n], e);
 
-  byte opcode = parse_opcode(&l.str[n], e);
-  printf("opcode: %d\n", opcode);
+  printf("opcode: %d (0x%x)\n", o.opcode, o.opcode);
 
-  if (opcode == 255) {
+  if (o.opcode == 255) {
     printf("invalid instruction op:\n%s\n", l.str);
     exit(1);
   }
