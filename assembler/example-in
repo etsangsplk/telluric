@@ -1,0 +1,25 @@
+.meta
+
+network=false
+audio=false
+disk=false
+graphics=true
+
+.data
+
+:bitmap
+[shared]
+0 0 1 0 0
+0 0 1 0 0
+1 1 1 1 1
+0 0 1 0 0
+0 0 1 0 0
+
+.main
+  unnan f4 f4
+
+.close
+  exit
+
+.render
+  blit :bitmap [0.0f, 0.0f, 0.0f, 0.0f]   ; draw from origin
