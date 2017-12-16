@@ -9,7 +9,7 @@
 literal parse_simple(char* c, int* pos, int len) {
   literal l;
   int n = *pos;
-  bool neg;
+  bool neg = false;
 
   while (n < len && c[n] != ' ' && c[n] != ']') n++;
 
