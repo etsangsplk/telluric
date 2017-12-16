@@ -24,12 +24,12 @@ int first_space(char* c, int len) {
 }
 
 byte parse_opcode(char* c, int len) {
-  for (int i = 0; i < pneumonics_len; i++) {
-    int n = strlen(pneumonics[i]);
+  for (int i = 0; i < mnemonics_len; i++) {
+    int n = strlen(mnemonics[i]);
 
     if (n > len) continue;
 
-    if (strncmp(pneumonics[i], c, n) == 0)
+    if (strncmp(mnemonics[i], c, n) == 0)
       return i;
   }
 

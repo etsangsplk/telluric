@@ -26,9 +26,9 @@ typedef struct {
   byte* value;
 } instr_operand;
 
-static const int pneumonics_len = 53;
+static const int mnemonics_len = 53;
 
-static const char* pneumonics[53] = {
+static const char* mnemonics[53] = {
   "and",
   "or",
   "xor",
