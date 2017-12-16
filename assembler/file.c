@@ -158,7 +158,7 @@ byte* collapse_file(program_file p, int* len) {
   *len += code_header_len;
 
   memcpy(&out[*len], code_blob, code_blob_len);
-  *len += code_header_len;
+  *len += code_blob_len;
 
   free(header);
   free(storage_header);
