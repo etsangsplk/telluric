@@ -28,7 +28,7 @@ typedef struct {
 
 static const int pneumonics_len = 53;
 
-static const char* pneumonics[pneumonics_len] = {
+static const char* pneumonics[53] = {
   "and",
   "or",
   "xor",
