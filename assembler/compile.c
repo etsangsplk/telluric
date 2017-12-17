@@ -30,6 +30,8 @@ instr_encoded encode_instr(instr in) {
     memcpy(&return_operand[1], in.return_operand.value, in.return_operand.value_len);
     return_operand_len = in.return_operand.value_len + 1;
     total_len += return_operand_len;
+  } else {
+    o.hdr.has_return = false;
   }
 
   o.hdr.length = total_len;
